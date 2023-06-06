@@ -20,6 +20,11 @@ public class GUI {
     GroupLayout layout = new GroupLayout(panel);
     panel.setLayout(layout);
 
+    JLabel pkgLabel = new JLabel("Package:");
+    JTextField pkgField = new JTextField(20);
+    //default value
+    pkgField.setText("com.linuxea.android");
+
     JLabel domainLabel = new JLabel("Domain:");
     JTextField domainField = new JTextField(20);
     //default value
@@ -33,11 +38,12 @@ public class GUI {
     JButton button = new JButton("Click me!");
     button.addActionListener(e -> {
       long start = System.currentTimeMillis();
+      String pkg = pkgField.getText();
       String domain = domainField.getText();
       String dest = destField.getText();
       ScriptUtil scriptUtil = new ScriptUtil();
       try {
-        scriptUtil.generate(domain, domain, dest);
+        scriptUtil.generate(pkg, domain, dest);
       } catch (IOException | InterruptedException ex) {
         JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
@@ -50,15 +56,16 @@ public class GUI {
     layout.setAutoCreateContainerGaps(true);
 
     GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
-    hGroup.addGroup(layout.createParallelGroup().addComponent(domainLabel)
+    hGroup.addGroup(layout.createParallelGroup().addComponent(pkgLabel).addComponent(domainLabel)
         .addComponent(destLabel).addComponent(button));
-    hGroup.addGroup(layout.createParallelGroup().addComponent(domainField)
+    hGroup.addGroup(layout.createParallelGroup().addComponent(pkgField).addComponent(domainField)
         .addComponent(destField));
     layout.setHorizontalGroup(hGroup);
 
     GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
     vGroup.addGroup(
-        layout.createParallelGroup(GroupLayout.Alignment.BASELINE));
+        layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(pkgLabel)
+            .addComponent(pkgField));
     vGroup.addGroup(
         layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(domainLabel)
             .addComponent(domainField));
